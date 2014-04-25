@@ -20,12 +20,10 @@
         return false;
     }
 
-    NSMutableArray *sorted1 = [lowercaseSelf arrayOfLetters];
-    NSMutableArray *sorted2 = [lowercaseString arrayOfLetters];
-
-    sorted1 = [sorted1 sortedArrayUsingSelector:@selector(compare:)];
-    sorted2 = [sorted2 sortedArrayUsingSelector:@selector(compare:)];
-
+    NSMutableArray *sorted1 = [[lowercaseSelf arrayOfLetters]
+        sortedArrayUsingSelector:@selector(compare:)];
+    NSMutableArray *sorted2 = [[lowercaseString arrayOfLetters]
+        sortedArrayUsingSelector:@selector(compare:)];
     return [sorted1 isEqualToArray:sorted2];
 }
 @end
