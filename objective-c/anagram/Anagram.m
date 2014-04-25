@@ -2,16 +2,6 @@
 
 @implementation NSString (Anagram)
 
-- (NSArray *)arrayOfLetters {
-    // from: http://www.idev101.com/code/Objective-C/Strings/split.html
-    NSMutableArray *characters = [[NSMutableArray alloc] initWithCapacity:[self length]];
-    for (int i=0; i < [self length]; i++) {
-        NSString *ichar  = [NSString stringWithFormat:@"%c", [self characterAtIndex:i]];
-        [characters addObject:ichar];
-    }
-    return characters;    
-}
-
 - (BOOL)isAnagramOf:(NSString *)string {
     NSString *lowercaseSelf = [self lowercaseString];
     NSString *lowercaseString = [string lowercaseString];
@@ -20,9 +10,17 @@
         return false;
     }
 
-    NSMutableArray *sorted1 = [[lowercaseSelf arrayOfLetters]
+    NSArray *(^arrayOfLetters)(NSString *) = ^NSArray *(NSString *stringToChange) {
+        NSMutableArray *characters = [[NSMutableArray alloc] initWithCapacity:[stringToChange length]];
+        for (int i=0; i < [stringToChange length]; i++) {
+            NSString *ichar  = [NSString stringWithFormat:@"%c", [stringToChange characterAtIndex:i]];
+            [characters addObject:ichar];
+        }
+        return characters;
+    };
+    NSMutableArray *sorted1 = [arrayOfLetters(lowercaseSelf)
         sortedArrayUsingSelector:@selector(compare:)];
-    NSMutableArray *sorted2 = [[lowercaseString arrayOfLetters]
+    NSMutableArray *sorted2 = [arrayOfLetters(lowercaseString)
         sortedArrayUsingSelector:@selector(compare:)];
     return [sorted1 isEqualToArray:sorted2];
 }
